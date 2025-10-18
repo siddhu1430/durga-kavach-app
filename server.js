@@ -88,7 +88,8 @@ app.post('/api/detect-intent', async (req, res) => {
 
 // --- API ENDPOINT: Send Alert ---
 app.post('/api/send-alert', async (req, res) => {
-    const { userName, email, phone, location, videoData, emergencyContacts } = req.body;
+    // FIX: Destructure 'username' instead of 'userName' to match client's payload.
+    const { username, email, phone, location, videoData, emergencyContacts } = req.body;
     
     const emails = emergencyContacts.map(c => c.email).filter(Boolean);
     const phoneNumbers = emergencyContacts.map(c => c.phone).filter(Boolean);
@@ -98,13 +99,14 @@ app.post('/api/send-alert', async (req, res) => {
 
     // Send Email via SendGrid
     if (emails.length > 0) {
+        // Now using the correctly destructured variable 'username'
         const locationUrl = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
         const accuracyInfo = location.accuracy ? `<p><b>Accuracy:</b> Within ${Math.round(location.accuracy)} meters.</p>` : '';
         const msg = {
             to: emails,
             from: { email: 'durgakavach.alert@yourdomain.com', name: 'Durga Kavach Alert' }, // IMPORTANT: Use a verified sender in SendGrid
-            subject: `[URGENT] SOS Alert from ${userName}`,
-            html: `<h3>Emergency SOS Report for ${userName}</h3><p><b>User's Phone:</b> ${phone}</p><p><b>Location:</b> <a href="${locationUrl}">View on Map</a></p>${accuracyInfo}<p>A 90-second video evidence clip is attached.</p>`,
+            subject: `[URGENT] SOS Alert from ${username}`,
+            html: `<h3>Emergency SOS Report for ${username}</h3><p><b>User's Phone:</b> ${phone}</p>${accuracyInfo}<p><b>Location:</b> <a href="${locationUrl}">View on Map</a></p><p>A 90-second video evidence clip is attached.</p>`,
             attachments: videoData ? [{ content: videoData.split('base64,')[1], filename: `evidence-video.webm`, type: 'video/webm', disposition: 'attachment' }] : []
         };
         try {
@@ -117,9 +119,10 @@ app.post('/api/send-alert', async (req, res) => {
     
     // Send SMS via Twilio
     if (phoneNumbers.length > 0) {
+        // Now using the correctly destructured variable 'username'
         const locationUrl = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
         const accuracyInfoSms = location.accuracy ? ` (Accuracy: ~${Math.round(location.accuracy)}m)` : '';
-        const smsMessage = `URGENT SOS from ${userName}. Location: ${locationUrl}${accuracyInfoSms}. Contact them or authorities now.`;
+        const smsMessage = `URGENT SOS from ${username}. Location: ${locationUrl}${accuracyInfoSms}. Contact them or authorities now.`;
         
         const smsPromises = phoneNumbers.map(number => {
              const formattedNumber = number.startsWith('+') ? number : `+${number}`;
@@ -145,4 +148,3 @@ app.post('/api/send-alert', async (req, res) => {
 connectToMongo().then(() => {
     app.listen(PORT, () => console.log(`✅ Server is running on http://localhost:${PORT}`));
 });
-

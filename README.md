@@ -131,4 +131,8 @@ git push origin feature/AmazingFeature
 📧 Email: gatadedipali@gmail.com
 🔗 LinkedIn: https://www.linkedin.com/in/dipali-gatade-55562a259
 
+👤 Akhil Siddhanath Mahadik
+📧 Email: gatadedipali@gmail.com
+🔗 LinkedIn: https://www.linkedin.com/in/akhil-mahadik-689aaa2a1
+
  

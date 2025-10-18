@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Durga Kavach - Safety Companion</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --accent-color: #ff4500; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; height: 100vh; background: linear-gradient(-45deg, #ff8c00, #ffd700, #ffffff, #ff8c00); background-size: 400% 400%; animation: gradientShift 15s ease infinite; display: flex; align-items: center; justify-content: center; }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .page { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 20px; box-sizing: border-box; }
+        .page.active { display: flex; }
+        .form-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); text-align: center; width: 100%; max-width: 400px; }
+        .form-container h2 { margin-top: 0; } .form-container p { margin: 0 0 20px 0; }
+        .form-group { text-align: left; margin-bottom: 10px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
+        .form-container input, .form-container select, .form-container button { width: 100%; padding: 12px; margin: 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
+        .form-container button { background-color: var(--accent-color); color: white; font-weight: bold; cursor: pointer; border: none; margin-top: 15px; }
+        #dashboard-page { justify-content: space-between; max-width: 500px; margin: auto; height: 100%; }
+        .header { text-align: center; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); padding-top: 10px; }
+        .sos-container { position: relative; display: flex; align-items: center; justify-content: center; padding: 10px 0; }
+        #sos-btn { width: 120px; height: 120px; border-radius: 50%; background-color: red; color: white; font-size: 28px; font-weight: bold; border: 5px solid white; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); cursor: pointer; animation: pulse 2s infinite; }
+        #sos-btn.active { animation: none; background-color: #28a745; } #sos-btn.recording { background-color: #E67E22; animation: pulse-recording 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); } 70% { transform: scale(1); } 100% { transform: scale(0.95); } }
+        @keyframes pulse-recording { 0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(230, 126, 34, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); } }
+        .actions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; width: 100%; max-width: 400px; }
+        .actions-grid button { padding: 12px; border-radius: 10px; border: none; background: rgba(255, 255, 255, 0.85); cursor: pointer; font-size: 14px; font-weight: 600; }
+        #share-location-btn.active { background-color: #28a745; color: white; }
+        #confirm-safety-btn { background-color: #17a2b8; color: white; margin-left: 10px; font-weight: bold; }
+        .chat-screen { width: 100%; background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; flex-grow: 1; margin: 15px 0; overflow: hidden; }
+        .chat-messages { padding: 15px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; word-wrap: break-word; }
+        .bot-message { background-color: #f1f0f0; align-self: flex-start; }
+        .user-message { background-color: var(--accent-color); color: white; align-self: flex-end; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; align-items: center; }
+        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
+        #send-btn { background: var(--accent-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+        #chat-call-btn { background: #28a745; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-right: 10px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+        .modal { position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 10px; }
+        .modal-content { background-color: #fefefe; margin: auto; padding: 25px; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 15px; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        #contacts-list, #logs-list, #zones-list { padding: 0; list-style: none; max-height: 200px; overflow-y: auto; }
+        #contacts-list li, #zones-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee; }
+        #contacts-list li span, #zones-list li span { font-weight: bold; }
+        .delete-btn { background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; padding: 5px 10px;}
+        #map-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        #map { height: 90%; width: 90%; border-radius: 15px; }
+        #camera-container { position: fixed; top: 10px; left: 10px; width: 100px; height: 100px; border: 2px solid white; border-radius: 8px; overflow: hidden; z-index: 2000; display: none; }
+    </style>
+</head>
+<body>
+    <div id="login-page" class="page active">
+        <div class="form-container">
+            <h2 data-key="loginTitle">Durga Kavach</h2>
+            <p data-key="loginSubtitle">Please enter your details to begin.</p>
+            <div class="form-group">
+                <label for="language-selector" data-key="languageLabel">Language</label>
+                <select id="language-selector"><option value="en">English</option><option value="mr">मराठी</option></select>
+            </div>
+            <div class="form-group">
+                <label for="username" data-key="usernameLabel">Your Name</label>
+                <input type="text" id="username" data-key-placeholder="usernamePlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="email" data-key="emailLabel">Your Email Address</label>
+                <input type="email" id="email" data-key-placeholder="emailPlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="phone" data-key="phoneLabel">Your Phone Number</label>
+                <input type="tel" id="phone" data-key-placeholder="phonePlaceholder">
+            </div>
+            <button id="login-btn" data-key="loginBtn">Start</button>
+        </div>
+    </div>
+    <div id="dashboard-page" class="page">
+        <div class="header"><h1>Welcome, <span id="display-username"></span>!</h1></div>
+        <div class="sos-container">
+            <button id="sos-btn">SOS</button>
+            <div id="camera-container">
+                <video id="camera-view" autoplay playsinline style="width:100%; height:100%; object-fit: cover;"></video>
+            </div>
+        </div>
+        <div class="actions-grid">
+            <button id="manage-contacts-btn" data-key="manageContactsBtn">Manage Contacts</button>
+            <button id="view-map-btn" data-key="viewMapBtn">Crime Hotspots</button>
+            <button id="switch-camera-btn" data-key="switchCameraBtn">Switch Camera</button>
+            <button id="call-112-btn" data-key="call112Btn">Call 112</button>
+        </div>
+        <div class="chat-screen">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-area">
+                <button id="chat-call-btn">📞</button>
+                <input type="text" id="chat-input" data-key-placeholder="inputPlaceholder">
+                <button id="send-btn" data-key="sendBtn">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contacts-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 data-key="contactsTitle">Emergency Contacts</h3>
+            <ul id="contacts-list"></ul>
+            <h4 data-key="addContactTitle">Add New Contact</h4>
+            <div class="form-group">
+                <label for="contact-name" data-key="contactNamePlaceholder">Name</label>
+                <input type="text" id="contact-name" data-key-placeholder="contactNamePlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="contact-email" data-key="contactEmailPlaceholder">Email</label>
+                <input type="email" id="contact-email" data-key-placeholder="emailPlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="contact-phone" data-key="contactPhonePlaceholder">Phone</label>
+                <input type="tel" id="contact-phone" data-key-placeholder="contactPhonePlaceholder">
+            </div>
+            <button id="add-contact-btn" data-key="addContactBtn">Add Contact</button>
+        </div>
+    </div>
+
+    <div id="map-container">
+        <div id="map"></div>
+        <span class="close-btn" onclick="document.getElementById('map-container').style.display='none'">&times;</span>
+    </div>
+
+    <script>
+        // Activate the service worker for offline capabilities
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    languageLabel: "Language", usernameLabel: "Your Name", emailLabel: "Your Email Address", phoneLabel: "Your Phone Number",
+                    phonePlaceholder: "e.g., +919876543210", manageContactsBtn: "Manage Contacts", viewMapBtn: "Crime Hotspots", switchCameraBtn: "Switch Camera",
+                    contactsTitle: "Emergency Contacts", addContactTitle: "Add New Contact", contactNamePlaceholder: "Name", contactEmailPlaceholder: "Email (Optional)", contactPhonePlaceholder: "Phone (e.g., +91...)", addContactBtn: "Add Contact",
+                    botRecording: "Recording video for 90 seconds. Alerts will be sent upon completion. Stay safe.",
+                    loginTitle: "Durga Kavach", loginSubtitle: "Please enter your details to begin.", usernamePlaceholder: "Enter your full name", emailPlaceholder: "Enter your email", loginBtn: "Start", welcome: "Welcome,", inputPlaceholder: "Type your message here...",
+                    botWelcome: "Welcome! For emergencies, press SOS or type 'help'.",
+                    botTriggerSOS: "Understood. Initiating SOS and alerting authorities.",
+                    botUnknown: "Sorry, I don't understand. In an emergency, please press the SOS button.",
+                    postSosGreeting: "Alerts sent. Help is on the way.",
+                    postSosReassurance: "I'm here with you. Try to breathe slowly.",
+                    responseReassurance: "It's okay to feel scared. Help is confirmed. You are not alone.",
+                    responseLocationInfo: "Thank you. This information will help the response team.",
+                    botEvidenceSaved: "Evidence backup saved to your device.",
+                    call112Btn: "Call 112",
+                },
+                mr: {
+                    languageLabel: "भाषा", usernameLabel: "तुमचे नाव", emailLabel: "तुमचा ईमेल पत्ता", phoneLabel: "तुमचा फोन नंबर",
+                    phonePlaceholder: "उदा. +919876543210", manageContactsBtn: "संपर्क व्यवस्थापित करा", viewMapBtn: "गुन्हेगारी हॉटस्पॉट", switchCameraBtn: "कॅमेरा बदला",
+                    contactsTitle: "आपत्कालीन संपर्क", addContactTitle: "नवीन संपर्क जोडा", contactNamePlaceholder: "नाव", contactEmailPlaceholder: "ईमेल (ऐच्छिक)", contactPhonePlaceholder: "फोन (उदा. +91...)", addContactBtn: "संपर्क जोडा",
+                    botRecording: "९० सेकंदांसाठी व्हिडिओ रेकॉर्ड करत आहे. पूर्ण झाल्यावर सूचना पाठवली जाईल. सुरक्षित रहा.",
+                    loginTitle: "दुर्गा कवच", loginSubtitle: "कृपया सुरू करण्यासाठी आपले तपशील प्रविष्ट करा.", usernamePlaceholder: "तुमचे पूर्ण नाव टाका", emailPlaceholder: "तुमचा ईमेल टाका", loginBtn: "सुरू करा", welcome: "स्वागत आहे,", inputPlaceholder: "तुमचा संदेश येथे टाइप करा...",
+                    botWelcome: "स्वागत आहे! आपत्कालीन परिस्थितीत, एसओएस बटण दाबा किंवा 'मदत' टाइप करा.",
+                    botTriggerSOS: "समजले. एसओएस प्रक्रिया सुरू करत आहे आणि अधिकाऱ्यांना सूचित करत आहे.",
+                    botUnknown: "क्षमस्व, मला समजले नाही. आपत्कालीन परिस्थितीत, कृपया एसओएस बटण दाबा.",
+                    postSosGreeting: "सूचना पाठवली आहे. मदत मार्गावर आहे.",
+                    postSosReassurance: "मी तुमच्यासोबत आहे. हळू श्वास घेण्याचा प्रयत्न करा.",
+                    responseReassurance: "घाबरून जाणे सामान्य आहे. मदत निश्चितपणे येत आहे. तुम्ही एकटे नाही आहात.",
+                    responseLocationInfo: "माहितीबद्दल धन्यवाद. यामुळे प्रतिसाद पथकाला मदत होईल.",
+                    botEvidenceSaved: "पुराव्याचा बॅकअप तुमच्या डिव्हाइसवर सेव्ह झाला आहे.",
+                    call112Btn: "112 वर कॉल करा",
+                }
+            };
+            const appState = { currentUser: null, sosActive: false, sosSent: false, mediaStream: null, language: 'en', contacts: [ { name: 'Police Control Room', email: 'durgakavach00@gmail.com', phone: '112', default: true }, { name: 'Women Helpline', phone: '1091', default: true } ], currentFacingMode: 'user' };
+            const loginPage = document.getElementById('login-page'), dashboardPage = document.getElementById('dashboard-page'), loginBtn = document.getElementById('login-btn'), sosBtn = document.getElementById('sos-btn'), displayUsername = document.getElementById('display-username'), manageContactsBtn = document.getElementById('manage-contacts-btn'), viewMapBtn = document.getElementById('view-map-btn'), contactsModal = document.getElementById('contacts-modal'), closeModalBtn = contactsModal.querySelector('.close-btn'), addContactBtn = document.getElementById('add-contact-btn'), contactsList = document.getElementById('contacts-list'), langSelector = document.getElementById('language-selector'), chatMessages = document.getElementById('chat-messages'), chatInput = document.getElementById('chat-input'), sendBtn = document.getElementById('send-btn'), cameraView = document.getElementById('camera-view'), switchCameraBtn = document.getElementById('switch-camera-btn'), cameraContainer = document.getElementById('camera-container'), call112Btn = document.getElementById('call-112-btn'), chatCallBtn = document.getElementById('chat-call-btn');
+            let map;
+
+            function setLanguage(lang) {
+                appState.language = lang;
+                document.querySelectorAll('[data-key]').forEach(elem => { const key = elem.getAttribute('data-key'); if (translations[lang] && translations[lang][key]) { elem.innerText = translations[lang][key]; } });
+                document.querySelectorAll('[data-key-placeholder]').forEach(elem => { const key = elem.getAttribute('data-key-placeholder'); if (translations[lang] && translations[lang][key]) { elem.placeholder = translations[lang][key]; } });
+            }
+
+            async function requestPermissions(facingMode = 'user') {
+                if (appState.mediaStream) { appState.mediaStream.getTracks().forEach(track => track.stop()); }
+                try {
+                    const constraints = { video: { facingMode: facingMode }, audio: true };
+                    appState.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+                    cameraView.srcObject = appState.mediaStream;
+                    appState.currentFacingMode = facingMode;
+                } catch (error) { console.error('Permission denied:', error); alert('Camera and microphone access is required. Please allow permissions and reload.'); }
+            }
+            
+            function switchCamera() {
+                const newFacingMode = appState.currentFacingMode === 'user' ? 'environment' : 'user';
+                requestPermissions(newFacingMode);
+            }
+            
+            function displayMessage(text, sender) {
+                const messageElem = document.createElement('div');
+                messageElem.classList.add('message', `${sender}-message`);
+                messageElem.innerHTML = text.replace(/\n/g, '<br>');
+                chatMessages.appendChild(messageElem);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            async function handleUserMessage(message) {
+                displayMessage(message, 'user');
+                try {
+                    const response = await fetch('/api/detect-intent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: message, lang: appState.language }) });
+                    if (!response.ok) throw new Error('Server error');
+                    const data = await response.json();
+                    let botResponse = "";
+                    switch (data.intent) {
+                        case 'ReportThreat':
+                            botResponse = translations[appState.language].botTriggerSOS;
+                            if (!appState.sosActive) triggerSOS();
+                            break;
+                        case 'RequestReassurance': botResponse = translations[appState.language].responseReassurance; break;
+                        case 'ProvideLocationInfo': botResponse = translations[appState.language].responseLocationInfo; break;
+                        default: botResponse = data.responseText || translations[appState.language].botUnknown; break;
+                    }
+                    displayMessage(botResponse, 'bot');
+                } catch (error) { console.error("Error detecting intent:", error); displayMessage("Sorry, I'm having trouble understanding right now.", 'bot'); }
+            }
+
+            function triggerSOS() {
+                if(appState.sosActive) return;
+                appState.sosActive = true;
+                sosBtn.classList.add('recording');
+                sosBtn.textContent = '...';
+                cameraContainer.style.display = 'block';
+                displayMessage(translations[appState.language].botRecording, 'bot');
+                if (!appState.mediaStream) { alert('Cannot start SOS. Media permissions not granted.'); resetSOSButton(); return; }
+                const mediaRecorder = new MediaRecorder(appState.mediaStream, { mimeType: 'video/webm' });
+                let videoChunks = [];
+                mediaRecorder.ondataavailable = event => videoChunks.push(event.data);
+                mediaRecorder.start();
+                setTimeout(() => { if (mediaRecorder.state === 'recording') { mediaRecorder.stop(); } }, 90000); // 90 seconds
+                mediaRecorder.onstop = () => {
+                    const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
+                    const reader = new FileReader();
+                    reader.readAsDataURL(videoBlob);
+                    reader.onloadend = () => { sendAlertPackage(reader.result); };
+                };
+            }
+
+            function sendAlertPackage(videoData) {
+                // ✅ PRECISION UPDATE: Using options for high accuracy
+                const geolocationOptions = {
+                    enableHighAccuracy: true,
+                    timeout: 10000, // Wait up to 10 seconds for a good fix
+                    maximumAge: 0 // Force a fresh reading, not a cached one
+                };
+
+                navigator.geolocation.getCurrentPosition(position => {
+                    const alertPackage = { 
+                        username: appState.currentUser.username,
+                        email: appState.currentUser.email,
+                        phone: appState.currentUser.phone,
+                        // ✅ PRECISION UPDATE: Sending lat, lng, AND accuracy
+                        location: { 
+                            lat: position.coords.latitude, 
+                            lng: position.coords.longitude,
+                            accuracy: position.coords.accuracy 
+                        }, 
+                        videoData: videoData, 
+                        emergencyContacts: appState.contacts 
+                    };
+
+                    fetch('/api/send-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(alertPackage) })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            sosBtn.textContent = 'SENT';
+                            sosBtn.classList.remove('recording');
+                            sosBtn.classList.add('active');
+                            appState.sosSent = true;
+                            backupEvidence(videoData, new Date().toISOString());
+                            setTimeout(() => displayMessage(translations[appState.language].postSosGreeting, 'bot'), 1000);
+                            setTimeout(() => displayMessage(translations[appState.language].postSosReassurance, 'bot'), 2500);
+                        } else { resetSOSButton(); alert('Failed to send alerts.'); }
+                    }).catch(err => { console.error('Fetch Error:', err); resetSOSButton(); alert('Network error.'); });
+                }, () => { 
+                    resetSOSButton(); 
+                    alert('Could not get a precise location. Please ensure GPS is enabled and try again.'); 
+                }, geolocationOptions); // Using the high-accuracy options
+            }
+
+            function resetSOSButton() { appState.sosActive = false; appState.sosSent = false; sosBtn.classList.remove('recording', 'active'); sosBtn.textContent = 'SOS'; cameraContainer.style.display = 'none'; }
+            function loadContacts() { const savedContacts = localStorage.getItem('userContacts'); if (savedContacts) { appState.contacts.push(...JSON.parse(savedContacts)); } renderContacts(); }
+            function saveContacts() { const userContacts = appState.contacts.filter(c => !c.default); localStorage.setItem('userContacts', JSON.stringify(userContacts)); }
+            function renderContacts() { contactsList.innerHTML = ''; appState.contacts.forEach((contact, index) => { const li = document.createElement('li'); li.innerHTML = `<span>${contact.name}</span> <small>${contact.phone || contact.email}</small>`; if (!contact.default) { const deleteBtn = document.createElement('button'); deleteBtn.textContent = 'X'; deleteBtn.className = 'delete-btn'; deleteBtn.onclick = () => { appState.contacts.splice(index, 1); saveContacts(); renderContacts(); }; li.appendChild(deleteBtn); } contactsList.appendChild(li); }); }
+            function backupEvidence(videoData, timestamp) { const download = (dataUrl, filename) => { const link = document.createElement('a'); link.href = dataUrl; link.download = filename; link.click(); }; download(videoData, `evidence-video-${timestamp.replace(/:/g, '-')}.webm`); displayMessage(translations[appState.language].botEvidenceSaved, 'bot'); }
+            function showMapWithHotspots() { const mapContainer = document.getElementById('map-container'); mapContainer.style.display = 'flex'; if (!map) { map = L.map('map').setView([16.8524, 74.5815], 13); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map); } fetch('crime_data.json').then(res => res.json()).then(data => { data.hotspots.forEach(hotspot => { const details = appState.language === 'mr' ? hotspot.details_mr : hotspot.details_en; L.circle([hotspot.lat, hotspot.lng], { color: 'red', radius: 300 }).addTo(map).bindPopup(details); }); }); }
+
+            loginBtn.addEventListener('click', () => {
+                const username = document.getElementById('username').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                if (username && email && phone) {
+                    appState.currentUser = { username, email, phone };
+                    displayUsername.textContent = username;
+                    loginPage.classList.remove('active');
+                    dashboardPage.classList.add('active');
+                    setLanguage(appState.language);
+                    requestPermissions();
+                    displayMessage(translations[appState.language].botWelcome, 'bot');
+                } else { alert('Please provide a name, email, and phone number.'); }
+            });
+            
+            langSelector.addEventListener('change', (e) => setLanguage(e.target.value));
+            sendBtn.addEventListener('click', () => { const message = chatInput.value.trim(); if (message) { handleUserMessage(message); chatInput.value = ''; } });
+            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { sendBtn.click(); } });
+            sosBtn.addEventListener('click', triggerSOS);
+            viewMapBtn.addEventListener('click', showMapWithHotspots);
+            manageContactsBtn.addEventListener('click', () => { contactsModal.style.display = 'flex'; });
+            closeModalBtn.addEventListener('click', () => { contactsModal.style.display = 'none'; });
+            addContactBtn.addEventListener('click', () => { const name = document.getElementById('contact-name').value.trim(); const email = document.getElementById('contact-email').value.trim(); const phone = document.getElementById('contact-phone').value.trim(); if (name && (email || phone)) { appState.contacts.push({ name, email, phone, default: false }); saveContacts(); renderContacts(); document.getElementById('contact-name').value = ''; document.getElementById('contact-email').value = ''; document.getElementById('contact-phone').value = ''; } else { alert('Please provide a name and at least an email or phone number.'); }});
+            call112Btn.addEventListener('click', () => { window.location.href = 'tel:112'; });
+            chatCallBtn.addEventListener('click', () => { window.location.href = 'tel:112'; });
+
+            loadContacts();
+            setLanguage(appState.language);
+        });
+    </script>
+</body>
+</html>
+

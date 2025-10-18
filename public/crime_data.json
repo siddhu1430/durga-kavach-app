@@ -1,0 +1,28 @@
+{
+  "hotspots": [
+    {
+      "lat": 16.8524,
+      "lng": 74.5815,
+      "details_en": "Sangli ST Stand Area: High footfall, be cautious of pickpocketing and theft.",
+      "details_mr": "सांगली एस.टी. स्टँड परिसर: जास्त वर्दळ, पाकीटमारी आणि चोरीपासून सावध रहा."
+    },
+    {
+      "lat": 16.8645,
+      "lng": 74.5645,
+      "details_en": "Vishrambag Area (Evening): Some streets are poorly lit, avoid walking alone late at night.",
+      "details_mr": "विश्रामबाग परिसर (सायंकाळ): काही रस्त्यांवर कमी प्रकाश असतो, रात्री उशिरा एकट्याने फिरणे टाळा."
+    },
+    {
+      "lat": 16.8485,
+      "lng": 74.6020,
+      "details_en": "Market Yard Area: Crowded space, be aware of your surroundings.",
+      "details_mr": "मार्केट यार्ड परिसर: गर्दीचे ठिकाण, आपल्या सभोवताली जागरूक रहा."
+    },
+    {
+      "lat": 16.8286,
+      "lng": 74.6087,
+      "details_en": "Miraj Railway Station Vicinity: Reports of chain-snatching incidents.",
+      "details_mr": "मिरज रेल्वे स्टेशन परिसर: सोनसाखळी चोरीच्या घटनांची नोंद आहे."
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- STATE & DOM ELEMENTS ---
+    const appState = { /* ... existing state ... */ };
+    const loginPage = document.getElementById('login-page');
+    // ... all your other existing variables ...
+    
+    // 👇 ADD THE NEW VARIABLES HERE
+    const viewMapBtn = document.getElementById('view-map-btn');
+    const mapContainer = document.getElementById('map-container');
+    let map;
+
+    // --- LOGIN & PERMISSIONS ---
+    loginBtn.addEventListener('click', () => { /* ... existing login logic ... */ });
+// --- LOGIN & PERMISSIONS ---
+    loginBtn.addEventListener('click', () => {
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const emergencyContacts = document.getElementById('emergency-contacts').value.trim();
+
+        if (username && email && emergencyContacts) {
+            appState.currentUser = { username, email, emergencyContacts: emergencyContacts.split(',').map(e => e.trim()) };
+            displayUsername.textContent = username;
+            loginPage.classList.remove('active');
+            dashboardPage.classList.add('active');
+            setLanguage(appState.language); 
+            
+            requestPermissions(); // This line was causing the error
+            
+            displayMessage(translations[appState.language].botWelcome, 'bot');
+        } else {
+            alert('Please fill all details.');
+        }
+    });
+
+    // 👇 PASTE THE MISSING FUNCTION HERE 👇
+    async function requestPermissions() {
+        try {
+            appState.mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            cameraView.srcObject = appState.mediaStream;
+        } catch (error) {
+            console.error('Permission denied for camera/microphone:', error);
+            // This alert is more helpful than the one in the screenshot
+            alert('Camera and microphone access is required for evidence capture. Please allow permissions in your browser and reload the page.');
+        }
+    }
+
+    // --- CHAT FUNCTIONALITY ---
+    function displayMessage(text, sender) { 
+        //... rest of your script continues here ...
+    async function requestPermissions() { /* ... existing permissions logic ... */ }
+
+    // --- SOS LOGIC ---
+    sosBtn.addEventListener('click', () => { /* ... existing SOS logic ... */ });
+    function sendAlertPackage(photoData, audioData) { /* ... existing alert logic ... */ }
+    function resetSOSButton() { /* ... existing reset logic ... */ }
+
+    // --- MAP LOGIC (ADD THE NEW FUNCTION HERE) ---
+    function showMapWithHotspots() {
+        mapContainer.style.display = 'flex';
+        const mapCenter = [16.8524, 74.5815]; // Sangli
+
+        if (!map) {
+            map = L.map('map').setView(mapCenter, 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+        }
+        
+        // Add user's current location marker
+        navigator.geolocation.getCurrentPosition(position => {
+            const userLocation = [position.coords.latitude, position.coords.longitude];
+            L.marker(userLocation).addTo(map).bindPopup('Your current location.').openPopup();
+            map.panTo(userLocation);
+        });
+
+        // Fetch and display crime hotspots
+        fetch('crime_data.json')
+            .then(res => res.json())
+            .then(data => {
+                data.hotspots.forEach(hotspot => {
+                    L.circle([hotspot.lat, hotspot.lng], {
+                        color: 'red',
+                        fillColor: '#f03',
+                        fillOpacity: 0.5,
+                        radius: 200
+                    }).addTo(map).bindPopup(hotspot.details);
+                });
+            });
+    }
+
+    // --- EVENT LISTENERS ---
+    // 👇 ADD THE NEW EVENT LISTENER HERE
+    viewMapBtn.addEventListener('click', showMapWithHotspots);
+});
+</script>

@@ -1,0 +1,105 @@
+/* style.css */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    overflow: hidden;
+    height: 100vh;
+    background: linear-gradient(-45deg, #ff8c00, #ffd700, #ffffff, #ff8c00);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.page {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.page.active { display: flex; }
+
+/* Login Page */
+.form-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    text-align: center;
+}
+.form-container h2 { margin-top: 0; }
+.form-container input, .form-container select, .form-container button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+.form-container button {
+    background-color: #ff4500;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+/* Dashboard */
+#dashboard-page {
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.header { text-align: center; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+
+/* SOS Button */
+.sos-container { flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+#sos-btn {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    border: 5px solid white;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+#sos-btn.active { animation: none; background-color: #28a745; }
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255, 0, 0, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+/* Actions Grid */
+.actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+.actions-grid button {
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}

@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Durga Kavach - Safety Companion</title>
     
-    <!-- PWA Icons - Changed to absolute paths -->
+    <!-- PWA Icons - Added absolute paths for reliability -->
     <link rel="apple-touch-icon" href="/icon-192x192.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png">
     
-    <!-- FIX APPLIED: Added type="application/manifest+json" for robust loading -->
+    <!-- PWA Manifest Link - Includes necessary type attribute -->
     <link rel="manifest" href="/manifest.json" type="application/manifest+json">
+    
+    <!-- ULTIMATE ICON FIX: Base64 SVG as Favicon to bypass server file routing -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' ry='20' fill='%23ff4500'/%3E%3Cpath fill='white' d='M50 20 L65 30 L65 45 C65 55 60 65 50 70 C40 65 35 55 35 45 L35 30 Z M50 25 L50 65' stroke='%23ffffff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -123,7 +126,7 @@
             </div>
             <div class="form-group">
                 <label for="contact-phone" data-key="contactPhonePlaceholder">Phone</label>
-                <input type="tel" id="contact-phone" data-key-placeholder="contactPhonePlaceholder">
+                <input type="tel" id="phone" data-key-placeholder="contactPhonePlaceholder">
             </div>
             <button id="add-contact-btn" data-key="addContactBtn">Add Contact</button>
         </div>

@@ -1,377 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Durga Kavach - Safety Companion</title>
-    
-    <!-- PWA Icons - Added absolute paths for reliability -->
-    <link rel="apple-touch-icon" href="/icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png">
-    
-    <!-- PWA Manifest Link - Includes necessary type attribute -->
-    <link rel="manifest" href="/manifest.json" type="application/manifest+json">
-    
-    <!-- ULTIMATE ICON FIX: Base64 PNG Icon data injected directly into the favicon link. -->
-    <link rel="icon" href="data:image/png;base64,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" alt="Durga Kavach App Icon" type="image/png">
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style>
-        :root { --accent-color: #ff4500; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; height: 100vh; background: linear-gradient(-45deg, #ff8c00, #ffd700, #ffffff, #ff8c00); background-size: 400% 400%; animation: gradientShift 15s ease infinite; display: flex; align-items: center; justify-content: center; }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .page { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 20px; box-sizing: border-box; }
-        .page.active { display: flex; }
-        .form-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); text-align: center; width: 100%; max-width: 400px; }
-        .form-container h2 { margin-top: 0; } .form-container p { margin: 0 0 20px 0; }
-        .form-group { text-align: left; margin-bottom: 10px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
-        .form-container input, .form-container select, .form-container button { width: 100%; padding: 12px; margin: 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
-        .form-container button { background-color: var(--accent-color); color: white; font-weight: bold; cursor: pointer; border: none; margin-top: 15px; }
-        #dashboard-page { justify-content: space-between; max-width: 500px; margin: auto; height: 100%; }
-        .header { text-align: center; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); padding-top: 10px; }
-        .sos-container { position: relative; display: flex; align-items: center; justify-content: center; padding: 10px 0; }
-        #sos-btn { width: 120px; height: 120px; border-radius: 50%; background-color: red; color: white; font-size: 28px; font-weight: bold; border: 5px solid white; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); cursor: pointer; animation: pulse 2s infinite; }
-        #sos-btn.active { animation: none; background-color: #28a745; } #sos-btn.recording { background-color: #E67E22; animation: pulse-recording 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.95); } 70% { transform: scale(1); } 100% { transform: scale(0.95); } }
-        @keyframes pulse-recording { 0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(230, 126, 34, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); } }
-        .actions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; width: 100%; max-width: 400px; }
-        .actions-grid button { padding: 12px; border-radius: 10px; border: none; background: rgba(255, 255, 255, 0.85); cursor: pointer; font-size: 14px; font-weight: 600; }
-        #share-location-btn.active { background-color: #28a745; color: white; }
-        #confirm-safety-btn { background-color: #17a2b8; color: white; margin-left: 10px; font-weight: bold; }
-        .chat-screen { width: 100%; background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; flex-grow: 1; margin: 15px 0; overflow: hidden; }
-        .chat-messages { padding: 15px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
-        .message { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; word-wrap: break-word; }
-        .bot-message { background-color: #f1f0f0; align-self: flex-start; }
-        .user-message { background-color: var(--accent-color); color: white; align-self: flex-end; }
-        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; align-items: center; }
-        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
-        #send-btn { background: var(--accent-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
-        #chat-call-btn { background: #28a745; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-right: 10px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
-        .modal { position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 10px; }
-        .modal-content { background-color: #fefefe; margin: auto; padding: 25px; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 15px; }
-        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        #contacts-list, #logs-list, #zones-list { padding: 0; list-style: none; max-height: 200px; overflow-y: auto; }
-        #contacts-list li, #zones-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee; }
-        #contacts-list li span, #zones-list li span { font-weight: bold; }
-        .delete-btn { background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; padding: 5px 10px;}
-        #map-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-        #map { height: 90%; width: 90%; border-radius: 15px; }
-        #camera-container { position: fixed; top: 10px; left: 10px; width: 100px; height: 100px; border: 2px solid white; border-radius: 8px; overflow: hidden; z-index: 2000; display: none; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Durga Kavach - Safety Companion</title>
+    <link rel="manifest" href="manifest.json">
+
+            <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
+        <link rel="apple-touch-icon" href="icon-192x192.png">
+        <meta name="theme-color" content="#B93C23">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --accent-color: #ff4500; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; height: 100vh; background: linear-gradient(-45deg, #ff8c00, #ffd700, #ffffff, #ff8c00); background-size: 400% 400%; animation: gradientShift 15s ease infinite; display: flex; align-items: center; justify-content: center; }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .page { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 20px; box-sizing: border-box; }
+        .page.active { display: flex; }
+        .form-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); text-align: center; width: 100%; max-width: 400px; }
+        .form-container h2 { margin-top: 0; } .form-container p { margin: 0 0 20px 0; }
+        .form-group { text-align: left; margin-bottom: 10px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
+        .form-container input, .form-container select, .form-container button { width: 100%; padding: 12px; margin: 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
+        .form-container button { background-color: var(--accent-color); color: white; font-weight: bold; cursor: pointer; border: none; margin-top: 15px; }
+        #dashboard-page { justify-content: space-between; max-width: 500px; margin: auto; height: 100%; }
+        .header { text-align: center; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); padding-top: 10px; }
+        .sos-container { position: relative; display: flex; align-items: center; justify-content: center; padding: 10px 0; }
+        #sos-btn { width: 120px; height: 120px; border-radius: 50%; background-color: red; color: white; font-size: 28px; font-weight: bold; border: 5px solid white; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); cursor: pointer; animation: pulse 2s infinite; }
+        #sos-btn.active { animation: none; background-color: #28a745; } #sos-btn.recording { background-color: #E67E22; animation: pulse-recording 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); } 70% { transform: scale(1); } 100% { transform: scale(0.95); } }
+        @keyframes pulse-recording { 0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(230, 126, 34, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); } }
+        .actions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; width: 100%; max-width: 400px; }
+        .actions-grid button { padding: 12px; border-radius: 10px; border: none; background: rgba(255, 255, 255, 0.85); cursor: pointer; font-size: 14px; font-weight: 600; }
+        #share-location-btn.active { background-color: #28a745; color: white; }
+        #confirm-safety-btn { background-color: #17a2b8; color: white; margin-left: 10px; font-weight: bold; }
+        .chat-screen { width: 100%; background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; flex-grow: 1; margin: 15px 0; overflow: hidden; }
+        .chat-messages { padding: 15px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; word-wrap: break-word; }
+        .bot-message { background-color: #f1f0f0; align-self: flex-start; }
+        .user-message { background-color: var(--accent-color); color: white; align-self: flex-end; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid #ddd; align-items: center; }
+        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-size: 16px; }
+        #send-btn { background: var(--accent-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+        #chat-call-btn { background: #28a745; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-right: 10px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+        .modal { position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; padding: 10px; }
+        .modal-content { background-color: #fefefe; margin: auto; padding: 25px; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 15px; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        #contacts-list, #logs-list, #zones-list { padding: 0; list-style: none; max-height: 200px; overflow-y: auto; }
+        #contacts-list li, #zones-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee; }
+        #contacts-list li span, #zones-list li span { font-weight: bold; }
+        .delete-btn { background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; padding: 5px 10px;}
+        #map-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        #map { height: 90%; width: 90%; border-radius: 15px; }
+        #camera-container { position: fixed; top: 10px; left: 10px; width: 100px; height: 100px; border: 2px solid white; border-radius: 8px; overflow: hidden; z-index: 2000; display: none; }
+    </style>
 </head>
 <body>
-    <div id="login-page" class="page active">
-        <div class="form-container">
-            <h2 data-key="loginTitle">Durga Kavach</h2>
-            <p data-key="loginSubtitle">Please enter your details to begin.</p>
-            <div class="form-group">
-                <label for="language-selector" data-key="languageLabel">Language</label>
-                <select id="language-selector"><option value="en">English</option><option value="mr">मराठी</option></select>
-            </div>
-            <div class="form-group">
-                <label for="username" data-key="usernameLabel">Your Name</label>
-                <input type="text" id="username" data-key-placeholder="usernamePlaceholder">
-            </div>
-            <div class="form-group">
-                <label for="email" data-key="emailLabel">Your Email Address</label>
-                <input type="email" id="email" data-key-placeholder="emailPlaceholder">
-            </div>
-            <div class="form-group">
-                <label for="phone" data-key="phoneLabel">Your Phone Number</label>
-                <input type="tel" id="phone" data-key-placeholder="phonePlaceholder">
-            </div>
-            <button id="login-btn" data-key="loginBtn">Start</button>
-        </div>
-    </div>
-    <div id="dashboard-page" class="page">
-        <div class="header"><h1>Welcome, <span id="display-username"></span>!</h1></div>
-        <div class="sos-container">
-            <button id="sos-btn">SOS</button>
-            <div id="camera-container">
-                <video id="camera-view" autoplay playsinline style="width:100%; height:100%; object-fit: cover;"></video>
-            </div>
-        </div>
-        <div class="actions-grid">
-            <button id="manage-contacts-btn" data-key="manageContactsBtn">Manage Contacts</button>
-            <button id="view-map-btn" data-key="viewMapBtn">Crime Hotspots</button>
-            <button id="switch-camera-btn" data-key="switchCameraBtn">Switch Camera</button>
-            <button id="call-112-btn" data-key="call112Btn">Call 112</button>
-        </div>
-        <div class="chat-screen">
-            <div class="chat-messages" id="chat-messages"></div>
-            <div class="chat-input-area">
-                <button id="chat-call-btn">📞</button>
-                <input type="text" id="chat-input" data-key-placeholder="inputPlaceholder">
-                <button id="send-btn" data-key="sendBtn">➤</button>
-            </div>
-        </div>
-    </div>
+    <div id="login-page" class="page active">
+        <div class="form-container">
+            <h2 data-key="loginTitle">Durga Kavach</h2>
+            <p data-key="loginSubtitle">Please enter your details to begin.</p>
+            <div class="form-group">
+                <label for="language-selector" data-key="languageLabel">Language</label>
+                <select id="language-selector"><option value="en">English</option><option value="mr">मराठी</option></select>
+            </div>
+            <div class="form-group">
+                <label for="username" data-key="usernameLabel">Your Name</label>
+                <input type="text" id="username" data-key-placeholder="usernamePlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="email" data-key="emailLabel">Your Email Address</label>
+I              <input type="email" id="email" data-key-placeholder="emailPlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="phone" data-key="phoneLabel">Your Phone Number</label>
+                <input type="tel" id="phone" data-key-placeholder="phonePlaceholder">
+          D</div>
+            <button id="login-btn" data-key="loginBtn">Start</button>
+        </div>
+    </div>
+    <div id="dashboard-page" class="page">
+        <div class="header"><h1>Welcome, <span id="display-username"></span>!</h1></div>
+        <div class="sos-container">
+            <button id="sos-btn">SOS</button>
+            <div id="camera-container">
+                <video id="camera-view" autoplay playsinline style="width:100%; height:100%; object-fit: cover;"></video>
+            </div>
+        </div>
+        <div class="actions-grid">
+            <button id="manage-contacts-btn" data-key="manageContactsBtn">Manage Contacts</button>
+            <button id="view-map-btn" data-key="viewMapBtn">Crime Hotspots</button>
+            <button id="switch-camera-btn" data-key="switchCameraBtn">Switch Camera</button>
+            <button id="call-112-btn" data-key="call112Btn">Call 112</button>
+        </div>
+        <div class="chat-screen">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-area">
+                <button id="chat-call-btn">📞</button>
+pre              <input type="text" id="chat-input" data-key-placeholder="inputPlaceholder">
+                <button id="send-btn" data-key="sendBtn">➤</button>
+            </div>
+        </div>
+    </div>
 
-    <div id="contacts-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3 data-key="contactsTitle">Emergency Contacts</h3>
-            <ul id="contacts-list"></ul>
-            <h4 data-key="addContactTitle">Add New Contact</h4>
-            <div class="form-group">
-                <label for="contact-name" data-key="contactNamePlaceholder">Name</label>
-                <input type="text" id="contact-name" data-key-placeholder="contactNamePlaceholder">
-            </div>
-            <div class="form-group">
-                <label for="contact-email" data-key="contactEmailPlaceholder">Email</label>
-                <input type="email" id="contact-email" data-key-placeholder="emailPlaceholder">
-            </div>
-            <div class="form-group">
-                <label for="contact-phone" data-key="contactPhonePlaceholder">Phone</label>
-                <input type="tel" id="phone" data-key-placeholder="contactPhonePlaceholder">
-            </div>
-            <button id="add-contact-btn" data-key="addContactBtn">Add Contact</button>
-        </div>
-    </div>
+    <div id="contacts-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 data-key="contactsTitle">Emergency Contacts</h3>
+            <ul id="contacts-list"></ul>
+            <h4 data-key="addContactTitle">Add New Contact</h4>
+            <div class="form-group">
+                <label for="contact-name" data-key="contactNamePlaceholder">Name</label>
+s              <input type="text" id="contact-name" data-key-placeholder="contactNamePlaceholder">
+            </div>
+            <div class="form-group">
+                <label for="contact-email" data-key="contactEmailPlaceholder">Email</label>
+                <input type="email" id="contact-email" data-key-placeholder="emailPlaceholder">
+            </div>
+            <div class="form-group">
+l              <label for="contact-phone" data-key="contactPhonePlaceholder">Phone</label>
+                <input type="tel" id="contact-phone" data-key-placeholder="contactPhonePlaceholder">
+            </div>
+            <button id="add-contact-btn" data-key="addContactBtn">Add Contact</button>
+        </div>
+    </div>
 
-    <div id="map-container">
-        <div id="map"></div>
-        <span class="close-btn" onclick="document.getElementById('map-container').style.display='none'">&times;</span>
-    </div>
+    <div id="map-container">
+        <div id="map"></div>
+        <span class="close-btn" onclick="document.getElementById('map-container').style.display='none'">&times;</span>
+    </div>
 
-    <script>
-        // Activate the service worker for offline capabilities
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
+    <script>
+        // Activate the service worker for offline capabilities
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js').then(registration => {
+i                  console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const translations = {
-                en: {
-                    languageLabel: "Language", usernameLabel: "Your Name", emailLabel: "Your Email Address", phoneLabel: "Your Phone Number",
-                    phonePlaceholder: "e.g., +919876543210", manageContactsBtn: "Manage Contacts", viewMapBtn: "Crime Hotspots", switchCameraBtn: "Switch Camera",
-                    contactsTitle: "Emergency Contacts", addContactTitle: "Add New Contact", contactNamePlaceholder: "Name", contactEmailPlaceholder: "Email (Optional)", contactPhonePlaceholder: "Phone (e.g., +91...)", addContactBtn: "Add Contact",
-                    botRecording: "Recording video for 90 seconds. Alerts will be sent upon completion. Stay safe.",
-                    loginTitle: "Durga Kavach", loginSubtitle: "Please enter your details to begin.", usernamePlaceholder: "Enter your full name", emailPlaceholder: "Enter your email", loginBtn: "Start", welcome: "Welcome,", inputPlaceholder: "Type your message here...",
-                    botWelcome: "Welcome! For emergencies, press SOS or type 'help'.",
-                    botTriggerSOS: "Understood. Initiating SOS and alerting authorities.",
-                    botUnknown: "Sorry, I don't understand. In an emergency, please press the SOS button.",
-                    postSosGreeting: "Alerts sent. Help is on the way.",
-                    postSosReassurance: "I'm here with you. Try to breathe slowly.",
-                    responseReassurance: "It's okay to feel scared. Help is confirmed. You are not alone.",
-                    responseLocationInfo: "Thank you. This information will help the response team.",
-                    botEvidenceSaved: "Evidence backup saved to your device.",
-                    call112Btn: "Call 112",
-                },
-                mr: {
-                    languageLabel: "भाषा", usernameLabel: "तुमचे नाव", emailLabel: "तुमचा ईमेल पत्ता", phoneLabel: "तुमचा फोन नंबर",
-                    phonePlaceholder: "उदा. +919876543210", manageContactsBtn: "संपर्क व्यवस्थापित करा", viewMapBtn: "गुन्हेगारी हॉटस्पॉट", switchCameraBtn: "कॅमेरा बदला",
-                    contactsTitle: "आपत्कालीन संपर्क", addContactTitle: "नवीन संपर्क जोडा", contactNamePlaceholder: "नाव", contactEmailPlaceholder: "ईमेल (ऐच्छिक)", contactPhonePlaceholder: "फोन (उदा. +91...)", addContactBtn: "संपर्क जोडा",
-                    botRecording: "९० सेकंदांसाठी व्हिडिओ रेकॉर्ड करत आहे. पूर्ण झाल्यावर सूचना पाठवली जाईल. सुरक्षित रहा.",
-                    loginTitle: "दुर्गा कवच", loginSubtitle: "कृपया सुरू करण्यासाठी आपले तपशील प्रविष्ट करा.", usernamePlaceholder: "तुमचे पूर्ण नाव टाका", emailPlaceholder: "तुमचा ईमेल टाका", loginBtn: "सुरू करा", welcome: "स्वागत आहे,", inputPlaceholder: "तुमचा संदेश येथे टाइप करा...",
-                    botWelcome: "स्वागत आहे! आपत्कालीन परिस्थितीत, एसओएस बटण दाबा किंवा 'मदत' टाइप करा.",
-                    botTriggerSOS: "समजले. एसओएस प्रक्रिया सुरू करत आहे आणि अधिकाऱ्यांना सूचित करत आहे.",
-                    botUnknown: "क्षमस्व, मला समजले नाही. आपत्कालीन परिस्थितीत, कृपया एसओएस बटण दाबा.",
-                    postSosGreeting: "सूचना पाठवली आहे. मदत मार्गावर आहे.",
-                    postSosReassurance: "मी तुमच्यासोबत आहे. हळू श्वास घेण्याचा प्रयत्न करा.",
-                    responseReassurance: "घाबरून जाणे सामान्य आहे. मदत निश्चितपणे येत आहे. तुम्ही एकटे नाही आहात.",
-                    responseLocationInfo: "माहितीबद्दल धन्यवाद. यामुळे प्रतिसाद पथकाला मदत होईल.",
-                    botEvidenceSaved: "पुराव्याचा बॅकअप तुमच्या डिव्हाइसवर सेव्ह झाला आहे.",
-                    call112Btn: "112 वर कॉल करा",
-                }
-            };
-            // --- UPDATED APP STATE ---
-            const appState = { 
-                currentUser: null, 
-                sosActive: false, 
-                sosSent: false, 
-                mediaStream: null, 
-                language: 'en', 
-                contacts: [ 
-                    { name: 'Police Control Room', email: 'durgakavach00@gmail.com', phone: '112', default: true }, 
-                    { name: 'Women Helpline', phone: '1091', default: true } 
-                ], 
-                currentFacingMode: 'user' // Default to user (front) camera
-            };
-            const loginPage = document.getElementById('login-page'), dashboardPage = document.getElementById('dashboard-page'), loginBtn = document.getElementById('login-btn'), sosBtn = document.getElementById('sos-btn'), displayUsername = document.getElementById('display-username'), manageContactsBtn = document.getElementById('manage-contacts-btn'), viewMapBtn = document.getElementById('view-map-btn'), contactsModal = document.getElementById('contacts-modal'), closeModalBtn = contactsModal.querySelector('.close-btn'), addContactBtn = document.getElementById('add-contact-btn'), contactsList = document.getElementById('contacts-list'), langSelector = document.getElementById('language-selector'), chatMessages = document.getElementById('chat-messages'), chatInput = document.getElementById('chat-input'), sendBtn = document.getElementById('send-btn'), cameraView = document.getElementById('camera-view'), switchCameraBtn = document.getElementById('switch-camera-btn'), cameraContainer = document.getElementById('camera-container'), call112Btn = document.getElementById('call-112-btn'), chatCallBtn = document.getElementById('chat-call-btn');
-            let map;
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    languageLabel: "Language", usernameLabel: "Your Name", emailLabel: "Your Email Address", phoneLabel: "Your Phone Number",
+                    phonePlaceholder: "e.g., +919876543210", manageContactsBtn: "Manage Contacts", viewMapBtn: "Crime Hotspots", switchCameraBtn: "Switch Camera",
+                    contactsTitle: "Emergency Contacts", addContactTitle: "Add New Contact", contactNamePlaceholder: "Name", contactEmailPlaceholder: "Email (Optional)", contactPhonePlaceholder: "Phone (e.g., +91...)", addContactBtn: "Add Contact",
+                    botRecording: "Recording video for 90 seconds. Alerts will be sent upon completion. Stay safe.",
+                    loginTitle: "Durga Kavach", loginSubtitle: "Please enter your details to begin.", usernamePlaceholder: "Enter your full name", emailPlaceholder: "Enter your email", loginBtn: "Start", welcome: "Welcome,", inputPlaceholder: "Type your message here...",
+is                  botWelcome: "Welcome! For emergencies, press SOS or type 'help'.",
+                    botTriggerSOS: "Understood. Initiating SOS and alerting authorities.",
+E                  botUnknown: "Sorry, I don't understand. In an emergency, please press the SOS button.",
+                    postSosGreeting: "Alerts sent. Help is on the way.",
+                    postSosReassurance: "I'm here with you. Try to breathe slowly.",
+                    responseReassurance: "It's okay to feel scared. Help is confirmed. You are not alone.",
+                    responseLocationInfo: "Thank you. This information will help the response team.",
+                    botEvidenceSaved: "Evidence backup saved to your device.",
+                    call112Btn: "Call 112",
+Two             },
+                mr: {
+                    languageLabel: "भाषा", usernameLabel: "तुमचे नाव", emailLabel: "तुमचा ईमेल पत्ता", phoneLabel: "तुमचा फोन नंबर",
+                    phonePlaceholder: "उदा. +919876543210", manageContactsBtn: "संपर्क व्यवस्थापित करा", viewMapBtn: "गुन्हेगारी हॉटस्पॉट", switchCameraBtn: "कॅमेरा बदला",
+Note:                  contactsTitle: "आपत्कालीन संपर्क", addContactTitle: "नवीन संपर्क जोडा", contactNamePlaceholder: "नाव", contactEmailPlaceholder: "ईमेल (ऐच्छिक)", contactPhonePlaceholder: "फोन (उदा. +91...)", addContactBtn: "संपर्क जोडा",
+                    botRecording: "९० सेकंदांसाठी व्हिडिओ रेकॉर्ड करत आहे. पूर्ण झाल्यावर सूचना पाठवली जाईल. सुरक्षित रहा.",
+                    loginTitle: "दुर्गा कवच", loginSubtitle: "कृपया सुरू करण्यासाठी आपले तपशील प्रविष्ट करा.", usernamePlaceholder: "तुमचे पूर्ण नाव टाका", emailPlaceholder: "तुमचा ईमेल टाका", loginBtn: "सुरू करा", welcome: "स्वागत आहे,", inputPlaceholder: "तुमचा संदेश येथे टाइप करा...",
+Indentation                  botWelcome: "स्वागत आहे! आपत्कालीन परिस्थितीत, एसओएस बटण दाबा किंवा 'मदत' टाइप करा.",
+                    botTriggerSOS: "समजले. एसओएस प्रक्रिया सुरू करत आहे आणि अधिकाऱ्यांना सूचित करत आहे.",
+                    botUnknown: "क्षमस्व, मला समजले नाही. आपत्कालीन परिस्थितीत, कृपया एसओएस बटण दाबा.",
+                    postSosGreeting: "सूचना पाठवली आहे. मदत मार्गावर आहे.",
+                    postSosReassurance: "मी तुमच्यासोबत आहे. हळू श्वास घेण्याचा प्रयत्न करा.",
+                    responseReassurance: "घाबरून जाणे सामान्य आहे. मदत निश्चितपणे येत आहे. तुम्ही एकटे नाही आहात.",
+                    responseLocationInfo: "माहितीबद्दल धन्यवाद. यामुळे प्रतिसाद पथकाला मदत होईल.",
+                    botEvidenceSaved: "पुराव्याचा बॅकअप तुमच्या डिव्हाइसवर सेव्ह झाला आहे.",
+i                  call112Btn: "112 वर कॉल करा",
+                }
+            };
+            const appState = { currentUser: null, sosActive: false, sosSent: false, mediaStream: null, language: 'en', contacts: [ { name: 'Police Control Room', email: 'durgakavach00@gmail.com', phone: '112', default: true }, { name: 'Women Helpline', phone: '1091', default: true } ], currentFacingMode: 'user' };
+            const loginPage = document.getElementById('login-page'), dashboardPage = document.getElementById('dashboard-page'), loginBtn = document.getElementById('login-btn'), sosBtn = document.getElementById('sos-btn'), displayUsername = document.getElementById('display-username'), manageContactsBtn = document.getElementById('manage-contacts-btn'), viewMapBtn = document.getElementById('view-map-btn'), contactsModal = document.getElementById('contacts-modal'), closeModalBtn = contactsModal.querySelector('.close-btn'), addContactBtn = document.getElementById('add-contact-btn'), contactsList = document.getElementById('contacts-list'), langSelector = document.getElementById('language-selector'), chatMessages = document.getElementById('chat-messages'), chatInput = document.getElementById('chat-input'), sendBtn = document.getElementById('send-btn'), cameraView = document.getElementById('camera-view'), switchCameraBtn = document.getElementById('switch-camera-btn'), cameraContainer = document.getElementById('camera-container'), call112Btn = document.getElementById('call-112-btn'), chatCallBtn = document.getElementById('chat-call-btn');
+            let map;
 
-            function setLanguage(lang) {
-                appState.language = lang;
-                document.querySelectorAll('[data-key]').forEach(elem => { const key = elem.getAttribute('data-key'); if (translations[lang] && translations[lang][key]) { elem.innerText = translations[lang][key]; } });
-                document.querySelectorAll('[data-key-placeholder]').forEach(elem => { const key = elem.getAttribute('data-key-placeholder'); if (translations[lang] && translations[lang][key]) { elem.placeholder = translations[lang][key]; } });
-            }
+            function setLanguage(lang) {
+                appState.language = lang;
+                document.querySelectorAll('[data-key]').forEach(elem => { const key = elem.getAttribute('data-key'); if (translations[lang] && translations[lang][key]) { elem.innerText = translations[lang][key]; } });
+                document.querySelectorAll('[data-key-placeholder]').forEach(elem => { const key = elem.getAttribute('data-key-placeholder'); if (translations[lang] && translations[lang][key]) { elem.placeholder = translations[lang][key]; } });
+            }
 
-            // --- UPDATED: Ensures the existing stream is stopped before a new one starts ---
-            async function requestPermissions(facingMode = 'user') {
-                if (appState.mediaStream) { 
-                    appState.mediaStream.getTracks().forEach(track => track.stop()); 
-                }
-                try {
-                    const constraints = { video: { facingMode: facingMode }, audio: true };
-                    appState.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-                    cameraView.srcObject = appState.mediaStream;
-                    appState.currentFacingMode = facingMode;
-                } catch (error) { 
-                    console.error('Permission denied or camera error:', error); 
-                    alert('Camera and microphone access is required. Please allow permissions and reload.'); 
-                }
-            }
-            
-            // --- UPDATED: Logic for switching cameras ---
-            function switchCamera() {
-                const newFacingMode = appState.currentFacingMode === 'user' ? 'environment' : 'user';
-                requestPermissions(newFacingMode);
-            }
-            
-            function displayMessage(text, sender) {
-                const messageElem = document.createElement('div');
-                messageElem.classList.add('message', `${sender}-message`);
-                messageElem.innerHTML = text.replace(/\n/g, '<br>');
-                chatMessages.appendChild(messageElem);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            async function requestPermissions(facingMode = 'user') {
+                if (appState.mediaStream) { appState.mediaStream.getTracks().forEach(track => track.stop()); }
+                try {
+                    const constraints = { video: { facingMode: facingMode }, audio: true };
+                    appState.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+                    cameraView.srcObject = appState.mediaStream;
+                    appState.currentFacingMode = facingMode;
+                } catch (error) { console.error('Permission denied:', error); alert('Camera and microphone access is required. Please allow permissions and reload.'); }
+            }
+            
+            function switchCamera() {
+                const newFacingMode = appState.currentFacingMode === 'user' ? 'environment' : 'user';
+                requestPermissions(newFacingMode);
+            }
+            
+            function displayMessage(text, sender) {
+                const messageElem = document.createElement('div');
+                messageElem.classList.add('message', `${sender}-message`);
+                messageElem.innerHTML = text.replace(/\n/g, '<br>');
+                chatMessages.appendChild(messageElem);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
 
-            async function handleUserMessage(message) {
-                displayMessage(message, 'user');
-                try {
-                    const response = await fetch('/api/detect-intent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: message, lang: appState.language }) });
-                    if (!response.ok) throw new Error('Server error');
-                    const data = await response.json();
-                    let botResponse = "";
-                    switch (data.intent) {
-                        case 'ReportThreat':
-                            botResponse = translations[appState.language].botTriggerSOS;
-                            if (!appState.sosActive) triggerSOS();
-                            break;
-                        case 'RequestReassurance': botResponse = translations[appState.language].responseReassurance; break;
-                        case 'ProvideLocationInfo': botResponse = translations[appState.language].responseLocationInfo; break;
-                        default: botResponse = data.responseText || translations[appState.language].botUnknown; break;
-                    }
-                    displayMessage(botResponse, 'bot');
-                } catch (error) { console.error("Error detecting intent:", error); displayMessage("Sorry, I'm having trouble understanding right now.", 'bot'); }
-            }
+            async function handleUserMessage(message) {
+                displayMessage(message, 'user');
+                try {
+                    const response = await fetch('/api/detect-intent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: message, lang: appState.language }) });
+                    if (!response.ok) throw new Error('Server error');
+                    const data = await response.json();
+              _      let botResponse = "";
+                    switch (data.intent) {
+                        case 'ReportThreat':
+                            botResponse = translations[appState.language].botTriggerSOS;
+                            if (!appState.sosActive) triggerSOS();
+                            break;
+                        case 'RequestReassurance': botResponse = translations[appState.language].responseReassurance; break;
+s                    case 'ProvideLocationInfo': botResponse = translations[appState.language].responseLocationInfo; break;
+                        default: botResponse = data.responseText || translations[appState.language].botUnknown; break;
+                    }
+                    displayMessage(botResponse, 'bot');
+s            } catch (error) { console.error("Error detecting intent:", error); displayMessage("Sorry, I'm having trouble understanding right now.", 'bot'); }
+            }
 
-            function triggerSOS() {
-                if(appState.sosActive) return;
-                appState.sosActive = true;
-                sosBtn.classList.add('recording');
-                sosBtn.textContent = '...';
-                cameraContainer.style.display = 'block';
-                displayMessage(translations[appState.language].botRecording, 'bot');
-                
-                // IMPORTANT: Ensure the media stream is active before starting recording
-                if (!appState.mediaStream) { 
-                    // Attempt to start media stream with the current facing mode if it wasn't active
-                    requestPermissions(appState.currentFacingMode).then(() => {
-                        // Re-trigger recording logic after stream is established
-                        if (appState.mediaStream) startRecording(); 
-                        else resetSOSButton();
-                    });
-                    return;
-                }
-                
-                startRecording();
-            }
-            
-            function startRecording() {
-                const mediaRecorder = new MediaRecorder(appState.mediaStream, { mimeType: 'video/webm' });
-                let videoChunks = [];
-                mediaRecorder.ondataavailable = event => videoChunks.push(event.data);
-                mediaRecorder.start();
-                setTimeout(() => { if (mediaRecorder.state === 'recording') { mediaRecorder.stop(); } }, 90000); // 90 seconds
-                mediaRecorder.onstop = () => {
-                    const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
-                    const reader = new FileReader();
-                    reader.readAsDataURL(videoBlob);
-                    reader.onloadend = () => { sendAlertPackage(reader.result); };
-                };
-            }
+            function triggerSOS() {
+                if(appState.sosActive) return;
+                appState.sosActive = true;
+                sosBtn.classList.add('recording');
+                sosBtn.textContent = '...';
+                cameraContainer.style.display = 'block';
+                displayMessage(translations[appState.language].botRecording, 'bot');
+                if (!appState.mediaStream) { alert('Cannot start SOS. Media permissions not granted.'); resetSOSButton(); return; }
+                const mediaRecorder = new MediaRecorder(appState.mediaStream, { mimeType: 'video/webm' });
+                let videoChunks = [];
+                mediaRecorder.ondataavailable = event => videoChunks.push(event.data);
+s              mediaRecorder.start();
+                setTimeout(() => { if (mediaRecorder.state === 'recording') { mediaRecorder.stop(); } }, 90000); // 90 seconds
+                mediaRecorder.onstop = () => {
+                    const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
+s                  const reader = new FileReader();
+                    reader.readAsDataURL(videoBlob);
+                    reader.onloadend = () => { sendAlertPackage(reader.result); };
+                };
+            }
 
+            function sendAlertPackage(videoData) {
+E              // ✅ PRECISION UPDATE: Using options for high accuracy
+                const geolocationOptions = {
+                    enableHighAccuracy: true,
+                    timeout: 10000, // Wait up to 10 seconds for a good fix
+                    maximumAge: 0 // Force a fresh reading, not a cached one
+                };
 
-            function sendAlertPackage(videoData) {
-                // ✅ PRECISION UPDATE: Using options for high accuracy
-                const geolocationOptions = {
-                    enableHighAccuracy: true,
-                    timeout: 10000, // Wait up to 10 seconds for a good fix
-                    maximumAge: 0 // Force a fresh reading, not a cached one
-                };
+                navigator.geolocation.getCurrentPosition(position => {
+                    const alertPackage = { 
+                        username: appState.currentUser.username,
+email: appState.currentUser.email,
+phone: appState.currentUser.phone,
+                        // ✅ PRECISION UPDATE: Sending lat, lng, AND accuracy
+                        location: { 
+                            lat: position.coords.latitude, 
+                            lng: position.coords.longitude,
+                            accuracy: position.coords.accuracy 
+                        }, 
+                        videoData: videoData,s 
+                        emergencyContacts: appState.contacts 
+                    };
 
-                navigator.geolocation.getCurrentPosition(position => {
-                    const alertPackage = { 
-                        username: appState.currentUser.username,
-                        email: appState.currentUser.email,
-                        phone: appState.currentUser.phone,
-                        // ✅ PRECISION UPDATE: Sending lat, lng, AND accuracy
-                        location: { 
-                            lat: position.coords.latitude, 
-                            lng: position.coords.longitude,
-                            accuracy: position.coords.accuracy 
-                        }, 
-                        videoData: videoData, 
-                        emergencyContacts: appState.contacts 
-                    };
+                    fetch('/api/send-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(alertPackage) })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            sosBtn.textContent = 'SENT';
+                    s       sosBtn.classList.remove('recording');
+                            sosBtn.classList.add('active');
+                    s       appState.sosSent = true;
+                            backupEvidence(videoData, new Date().toISOString());
+                            setTimeout(() => displayMessage(translations[appState.language].postSosGreeting, 'bot'), 1000);
+                            setTimeout(() => displayMessage(translations[appState.language].postSosReassurance, 'bot'), 2500);
+E                      } else { resetSOSButton(); alert('Failed to send alerts.'); }
+                    }).catch(err => { console.error('Fetch Error:', err); resetSOSButton(); alert('Network error.'); });
+S              }, () => { 
+                    resetSOSButton(); 
+                    alert('Could not get a precise location. Please ensure GPS is enabled and try again.');s 
+                }, geolocationOptions); // Using the high-accuracy options
+            }
 
-                    fetch('/api/send-alert', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(alertPackage) })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            sosBtn.textContent = 'SENT';
-                            sosBtn.classList.remove('recording');
-                            sosBtn.classList.add('active');
-                            appState.sosSent = true;
-                            backupEvidence(videoData, new Date().toISOString());
-                            setTimeout(() => displayMessage(translations[appState.language].postSosGreeting, 'bot'), 1000);
-                            setTimeout(() => displayMessage(translations[appState.language].postSosReassurance, 'bot'), 2500);
-                        } else { resetSOSButton(); alert('Failed to send alerts.'); }
-                    }).catch(err => { console.error('Fetch Error:', err); resetSOSButton(); alert('Network error.'); });
-                }, () => { 
-                    resetSOSButton(); 
-                    alert('Could not get a precise location. Please ensure GPS is enabled and try again.'); 
-                }, geolocationOptions); // Using the high-accuracy options
-            }
+            function resetSOSButton() { appState.sosActive = false; appState.sosSent = false; sosBtn.classList.remove('recording', 'active'); sosBtn.textContent = 'SOS'; cameraContainer.style.display = 'none'; }
+            function loadContacts() { const savedContacts = localStorage.getItem('userContacts'); if (savedContacts) { appState.contacts.push(...JSON.parse(savedContacts)); } renderContacts(); }
+            function saveContacts() { const userContacts = appState.contacts.filter(c => !c.default); localStorage.setItem('userContacts', JSON.stringify(userContacts)); }
+is           function renderContacts() { contactsList.innerHTML = ''; appState.contacts.forEach((contact, index) => { const li = document.createElement('li'); li.innerHTML = `<span>${contact.name}</span> <small>${contact.phone || contact.email}</small>`; if (!contact.default) { const deleteBtn = document.createElement('button'); deleteBtn.textContent = 'X'; deleteBtn.className = 'delete-btn'; deleteBtn.onclick = () => { appState.contacts.splice(index, 1); saveContacts(); renderContacts(); }; li.appendChild(deleteBtn); } contactsList.appendChild(li); }); }
+            function backupEvidence(videoData, timestamp) { const download = (dataUrl, filename) => { const link = document.createElement('a'); link.href = dataUrl; link.download = filename; link.click(); }; download(videoData, `evidence-video-${timestamp.replace(/:/g, '-')}.webm`); displayMessage(translations[appState.language].botEvidenceSaved, 'bot'); }
+            function showMapWithHotspots() { const mapContainer = document.getElementById('map-container'); mapContainer.style.display = 'flex'; if (!map) { map = L.map('map').setView([16.8524, 74.5815], 13); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map); } fetch('crime_data.json').then(res => res.json()).then(data => { data.hotspots.forEach(hotspot => { const details = appState.language === 'mr' ? hotspot.details_mr : hotspot.details_en; L.circle([hotspot.lat, hotspot.lng], { color: 'red', radius: 300 }).addTo(map).bindPopup(details); }); }); }
 
-            function resetSOSButton() { appState.sosActive = false; appState.sosSent = false; sosBtn.classList.remove('recording', 'active'); sosBtn.textContent = 'SOS'; cameraContainer.style.display = 'none'; }
-            function loadContacts() { const savedContacts = localStorage.getItem('userContacts'); if (savedContacts) { appState.contacts.push(...JSON.parse(savedContacts)); } renderContacts(); }
-            function saveContacts() { const userContacts = appState.contacts.filter(c => !c.default); localStorage.setItem('userContacts', JSON.stringify(userContacts)); }
-            function renderContacts() { contactsList.innerHTML = ''; appState.contacts.forEach((contact, index) => { const li = document.createElement('li'); li.innerHTML = `<span>${contact.name}</span> <small>${contact.phone || contact.email}</small>`; if (!contact.default) { const deleteBtn = document.createElement('button'); deleteBtn.textContent = 'X'; deleteBtn.className = 'delete-btn'; deleteBtn.onclick = () => { appState.contacts.splice(index, 1); saveContacts(); renderContacts(); }; li.appendChild(deleteBtn); } contactsList.appendChild(li); }); }
-            function backupEvidence(videoData, timestamp) { const download = (dataUrl, filename) => { const link = document.createElement('a'); link.href = dataUrl; link.download = filename; link.click(); }; download(videoData, `evidence-video-${timestamp.replace(/:/g, '-')}.webm`); displayMessage(translations[appState.language].botEvidenceSaved, 'bot'); }
-            function showMapWithHotspots() { const mapContainer = document.getElementById('map-container'); mapContainer.style.display = 'flex'; if (!map) { map = L.map('map').setView([16.8524, 74.5815], 13); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map); } fetch('crime_data.json').then(res => res.json()).then(data => { data.hotspots.forEach(hotspot => { const details = appState.language === 'mr' ? hotspot.details_mr : hotspot.details_en; L.circle([hotspot.lat, hotspot.lng], { color: 'red', radius: 300 }).addTo(map).bindPopup(details); }); }); }
+            loginBtn.addEventListener('click', () => {
+                const username = document.getElementById('username').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                if (username && email && phone) {
+  g                 appState.currentUser = { username, email, phone };
+                    displayUsername.textContent = username;
+                    loginPage.classList.remove('active');
+                    dashboardPage.classList.add('active');
+                    setLanguage(appState.language);
+                    requestPermissions();
+                    displayMessage(translations[appState.language].botWelcome, 'bot');
+                } else { alert('Please provide a name, email, and phone number.'); }
+            });
+            
+            langSelector.addEventListener('change', (e) => setLanguage(e.target.value));
+i          sendBtn.addEventListener('click', () => { const message = chatInput.value.trim(); if (message) { handleUserMessage(message); chatInput.value = ''; } });
+            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { sendBtn.click(); } });
+            sosBtn.addEventListener('click', triggerSOS);
+            viewMapBtn.addEventListener('click', showMapWithHotspots);
+Further          manageContactsBtn.addEventListener('click', () => { contactsModal.style.display = 'flex'; });
+            closeModalBtn.addEventListener('click', () => { contactsModal.style.display = 'none'; });
+            addContactBtn.addEventListener('click', () => { const name = document.getElementById('contact-name').value.trim(); const email = document.getElementById('contact-email').value.trim(); const phone = document.getElementById('contact-phone').value.trim(); if (name && (email || phone)) { appState.contacts.push({ name, email, phone, default: false }); saveContacts(); renderContacts(); document.getElementById('contact-name').value = ''; document.getElementById('contact-email').value = ''; document.getElementById('contact-phone').value = ''; } else { alert('Please provide a name and at least an email or phone number.'); }});
+            call112Btn.addEventListener('click', () => { window.location.href = 'tel:112'; });
+            chatCallBtn.addEventListener('click', () => { window.location.href = 'tel:112'; });
 
-            loginBtn.addEventListener('click', () => {
-                const username = document.getElementById('username').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                if (username && email && phone) {
-                    appState.currentUser = { username, email, phone };
-                    displayUsername.textContent = username;
-                    loginPage.classList.remove('active');
-                    dashboardPage.classList.add('active');
-                    setLanguage(appState.language);
-                    requestPermissions(); // Starts with default 'user' camera
-                    displayMessage(translations[appState.language].botWelcome, 'bot');
-                } else { alert('Please provide a name, email, and phone number.'); }
-            });
-            
-            langSelector.addEventListener('change', (e) => setLanguage(e.target.value));
-            sendBtn.addEventListener('click', () => { const message = chatInput.value.trim(); if (message) { handleUserMessage(message); chatInput.value = ''; } });
-            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { sendBtn.click(); } });
-            sosBtn.addEventListener('click', triggerSOS);
-            viewMapBtn.addEventListener('click', showMapWithHotspots);
-            manageContactsBtn.addEventListener('click', () => { contactsModal.style.display = 'flex'; });
-            closeModalBtn.addEventListener('click', () => { contactsModal.style.display = 'none'; });
-            addContactBtn.addEventListener('click', () => { const name = document.getElementById('contact-name').value.trim(); const email = document.getElementById('contact-email').value.trim(); const phone = document.getElementById('contact-phone').value.trim(); if (name && (email || phone)) { appState.contacts.push({ name, email, phone, default: false }); saveContacts(); renderContacts(); document.getElementById('contact-name').value = ''; document.getElementById('contact-email').value = ''; document.getElementById('contact-phone').value = ''; } else { alert('Please provide a name and at least an email or phone number.'); }});
-            call112Btn.addEventListener('click', () => { window.location.href = 'tel:112'; });
-            chatCallBtn.addEventListener('click', () => { window.location.href = 'tel:112'; });
-            switchCameraBtn.addEventListener('click', switchCamera); // Hooked up the button
-
-            loadContacts();
-            setLanguage(appState.language);
-        });
-    </script>
+            loadContacts();
+            setLanguage(appState.language);
+        });
+    </script>
 </body>
 </html>

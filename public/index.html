@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Durga Kavach - Safety Companion</title>
+    
+    <!-- PWA Icons - Added your uploaded icons -->
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512x512.png">
+    
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -173,7 +179,19 @@
                     call112Btn: "112 वर कॉल करा",
                 }
             };
-            const appState = { currentUser: null, sosActive: false, sosSent: false, mediaStream: null, language: 'en', contacts: [ { name: 'Police Control Room', email: 'durgakavach00@gmail.com', phone: '112', default: true }, { name: 'Women Helpline', phone: '1091', default: true } ], currentFacingMode: 'user' };
+            // --- UPDATED APP STATE ---
+            const appState = { 
+                currentUser: null, 
+                sosActive: false, 
+                sosSent: false, 
+                mediaStream: null, 
+                language: 'en', 
+                contacts: [ 
+                    { name: 'Police Control Room', email: 'durgakavach00@gmail.com', phone: '112', default: true }, 
+                    { name: 'Women Helpline', phone: '1091', default: true } 
+                ], 
+                currentFacingMode: 'user' // Default to user (front) camera
+            };
             const loginPage = document.getElementById('login-page'), dashboardPage = document.getElementById('dashboard-page'), loginBtn = document.getElementById('login-btn'), sosBtn = document.getElementById('sos-btn'), displayUsername = document.getElementById('display-username'), manageContactsBtn = document.getElementById('manage-contacts-btn'), viewMapBtn = document.getElementById('view-map-btn'), contactsModal = document.getElementById('contacts-modal'), closeModalBtn = contactsModal.querySelector('.close-btn'), addContactBtn = document.getElementById('add-contact-btn'), contactsList = document.getElementById('contacts-list'), langSelector = document.getElementById('language-selector'), chatMessages = document.getElementById('chat-messages'), chatInput = document.getElementById('chat-input'), sendBtn = document.getElementById('send-btn'), cameraView = document.getElementById('camera-view'), switchCameraBtn = document.getElementById('switch-camera-btn'), cameraContainer = document.getElementById('camera-container'), call112Btn = document.getElementById('call-112-btn'), chatCallBtn = document.getElementById('chat-call-btn');
             let map;
 
@@ -183,16 +201,23 @@
                 document.querySelectorAll('[data-key-placeholder]').forEach(elem => { const key = elem.getAttribute('data-key-placeholder'); if (translations[lang] && translations[lang][key]) { elem.placeholder = translations[lang][key]; } });
             }
 
+            // --- UPDATED: Ensures the existing stream is stopped before a new one starts ---
             async function requestPermissions(facingMode = 'user') {
-                if (appState.mediaStream) { appState.mediaStream.getTracks().forEach(track => track.stop()); }
+                if (appState.mediaStream) { 
+                    appState.mediaStream.getTracks().forEach(track => track.stop()); 
+                }
                 try {
                     const constraints = { video: { facingMode: facingMode }, audio: true };
                     appState.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
                     cameraView.srcObject = appState.mediaStream;
                     appState.currentFacingMode = facingMode;
-                } catch (error) { console.error('Permission denied:', error); alert('Camera and microphone access is required. Please allow permissions and reload.'); }
+                } catch (error) { 
+                    console.error('Permission denied or camera error:', error); 
+                    alert('Camera and microphone access is required. Please allow permissions and reload.'); 
+                }
             }
             
+            // --- UPDATED: Logic for switching cameras ---
             function switchCamera() {
                 const newFacingMode = appState.currentFacingMode === 'user' ? 'environment' : 'user';
                 requestPermissions(newFacingMode);
@@ -233,7 +258,22 @@
                 sosBtn.textContent = '...';
                 cameraContainer.style.display = 'block';
                 displayMessage(translations[appState.language].botRecording, 'bot');
-                if (!appState.mediaStream) { alert('Cannot start SOS. Media permissions not granted.'); resetSOSButton(); return; }
+                
+                // IMPORTANT: Ensure the media stream is active before starting recording
+                if (!appState.mediaStream) { 
+                    // Attempt to start media stream with the current facing mode if it wasn't active
+                    requestPermissions(appState.currentFacingMode).then(() => {
+                        // Re-trigger recording logic after stream is established
+                        if (appState.mediaStream) startRecording(); 
+                        else resetSOSButton();
+                    });
+                    return;
+                }
+                
+                startRecording();
+            }
+            
+            function startRecording() {
                 const mediaRecorder = new MediaRecorder(appState.mediaStream, { mimeType: 'video/webm' });
                 let videoChunks = [];
                 mediaRecorder.ondataavailable = event => videoChunks.push(event.data);
@@ -246,6 +286,7 @@
                     reader.onloadend = () => { sendAlertPackage(reader.result); };
                 };
             }
+
 
             function sendAlertPackage(videoData) {
                 // ✅ PRECISION UPDATE: Using options for high accuracy
@@ -306,7 +347,7 @@
                     loginPage.classList.remove('active');
                     dashboardPage.classList.add('active');
                     setLanguage(appState.language);
-                    requestPermissions();
+                    requestPermissions(); // Starts with default 'user' camera
                     displayMessage(translations[appState.language].botWelcome, 'bot');
                 } else { alert('Please provide a name, email, and phone number.'); }
             });
@@ -321,6 +362,7 @@
             addContactBtn.addEventListener('click', () => { const name = document.getElementById('contact-name').value.trim(); const email = document.getElementById('contact-email').value.trim(); const phone = document.getElementById('contact-phone').value.trim(); if (name && (email || phone)) { appState.contacts.push({ name, email, phone, default: false }); saveContacts(); renderContacts(); document.getElementById('contact-name').value = ''; document.getElementById('contact-email').value = ''; document.getElementById('contact-phone').value = ''; } else { alert('Please provide a name and at least an email or phone number.'); }});
             call112Btn.addEventListener('click', () => { window.location.href = 'tel:112'; });
             chatCallBtn.addEventListener('click', () => { window.location.href = 'tel:112'; });
+            switchCameraBtn.addEventListener('click', switchCamera); // Hooked up the button
 
             loadContacts();
             setLanguage(appState.language);

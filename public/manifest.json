@@ -1,19 +1,19 @@
 {
-  "name": "Sangli Safety Companion",
-  "short_name": "Safety App",
+  "name": "Durga Kavach",
+  "short_name": "DurgaKavach",
+  "description": "Your AI-Powered Personal Safety Companion",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff4500",
-  "description": "An intelligent NLP-powered chatbot for women's safety in Sangli.",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

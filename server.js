@@ -104,7 +104,7 @@ app.post('/api/send-alert', async (req, res) => {
         const accuracyInfo = location.accuracy ? `<p><b>Accuracy:</b> Within ${Math.round(location.accuracy)} meters.</p>` : '';
         const msg = {
             to: emails,
-            from: { email: 'durgakavach00@gmail.com', name: 'Durga Kavach Alert' }, // IMPORTANT: Use a verified sender in SendGrid
+            from: { email: 'siddhant4329@gmail.com', name: 'Durga Kavach Alert' }, // IMPORTANT: Use a verified sender in SendGrid
             subject: `[URGENT] SOS Alert from ${username}`,
             html: `<h3>Emergency SOS Report for ${username}</h3><p><b>User's Phone:</b> ${phone}</p>${accuracyInfo}<p><b>Location:</b> <a href="${locationUrl}">View on Map</a></p><p>A 90-second video evidence clip is attached.</p>`,
             attachments: videoData ? [{ content: videoData.split('base64,')[1], filename: `evidence-video.webm`, type: 'video/webm', disposition: 'attachment' }] : []

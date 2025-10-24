@@ -119,7 +119,7 @@ git push origin feature/AmazingFeature
 
 ### 👥 Contributors
 
-👤 Siddhant Sanjay Deshmukh
+👤 Siddhant Sanjay Deshmukh  (Project Lead )
 📧 Email: dsiddhant.2006@gmail.com
 🔗 LinkedIn: www.linkedin.com/in/siddhantdeshmukh1430
 
